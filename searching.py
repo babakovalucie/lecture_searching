@@ -1,5 +1,8 @@
+import time
 from pathlib import Path
 import json
+from generators import unordered_sequence, ordered_sequence
+import matplotlib.pyplot as plt
 
 
 def read_data(file_name, field):
@@ -61,6 +64,33 @@ def binary_search(searched_data, searched_number):
             right = mid - 1
     return None
 
+def test_complexity(list_of_n):
+    for n in list_of_n:
+        number = 5
+        unordered_data = unordered_sequence(n)
+        ordered_data = ordered_sequence(n)
+        times_linear = []
+        times_binary = []
+        duration_linear = 0
+        duration_binary = 0
+        repetitions = 100
+        for measurments in range(100):
+            start_time_linear = time.perf_counter()
+            found_number = linear_search(unordered_data, number)
+            end_time_linear = time.perf_counter()
+            duration_linear += end_time_linear - start_time_linear
+
+            start_time_binary = time.perf_counter()
+            found_number = binary_search(ordered_data, number)
+            end_time_binary = time.perf_counter()
+            duration_binary += end_time_binary - start_time_binary
+        times_linear.append(duration_linear / repetitions)
+        times_binary.append(duration_binary / repetitions)
+
+def pattern_search(sequence, pattern):
+    idx = {}
+    return idx
+
 def main():
     my_data = read_data("sequential.json","unordered_numbers")
     print(my_data)
@@ -68,7 +98,10 @@ def main():
     print(found_numbers)
 
     my_data_2 = read_data("sequential.json","ordered_numbers")
-    found_number = binary_search(my_data_2,21)
+
+
+
     print(found_number)
+    print(duration)
 if __name__ == "__main__":
     main()
